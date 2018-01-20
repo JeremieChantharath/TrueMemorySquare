@@ -36,8 +36,8 @@ public class FullscreenActivity extends AppCompatActivity {
     }
 
     public void generateButtons(){
-        for (int i = 1; i <= 20; i++) {
-            LinearLayout ll = (LinearLayout)findViewById(R.id.fullscreen_content_controls);
+        for (int i = 1; i <= 5; i++) {
+            LinearLayout ll = (LinearLayout)findViewById(R.id.linearlayout);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
