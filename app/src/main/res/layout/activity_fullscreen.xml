@@ -4,23 +4,50 @@
              android:layout_height="match_parent"
              tools:context="com.example.chanthaj.truememorysquare.FullscreenActivity"
              android:background="#5e5e5e">
+
     <RelativeLayout
         android:layout_width="350dp"
-        android:layout_height="150dp"
+        android:layout_height="88dp"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp">
+
         <TextView
+            android:id="@+id/score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Score:"
-            android:layout_centerInParent="true"/>
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:text="Score:" />
 
+        <TextView
+            android:id="@+id/level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/score"
+            android:layout_centerHorizontal="true"
+            android:text="Level:" />
+
+        <TextView
+            android:id="@+id/levelLife"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/level"
+            android:layout_centerHorizontal="true"
+            android:text="LevelLife:" />
+
+        <TextView
+            android:id="@+id/life"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/levelLife"
+            android:layout_centerHorizontal="true"
+            android:text="Life:" />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/relativelayout"
         android:layout_width="350dp"
-        android:layout_height="350dp"
+        android:layout_height="481dp"
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
         android:background="#FFF"
