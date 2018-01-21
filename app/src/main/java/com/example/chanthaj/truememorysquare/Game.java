@@ -1,11 +1,13 @@
 package com.example.chanthaj.truememorysquare;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
 public class Game {
 
-    private String suite;
+    private ArrayList<Integer> suite;
     private int score;
     private int level;
     private int life;
@@ -14,14 +16,17 @@ public class Game {
 
     public Game(){
         this.score=0;
-        this.suite="";
         this.level=1;
         this.life=3;
+
         this.numberOfButton= new HashMap<>();
         this.numberOfButton.put(1,3);
         this.numberOfButton.put(2,3);
         this.numberOfButton.put(3,4);
         this.numberOfButton.put(4,4);
+
+        this.suite= new ArrayList<>();
+        createSuite();
 
     }
 
@@ -34,9 +39,10 @@ public class Game {
     }
 
     private void createSuite(){
+        this.suite.clear();
         Random r = new Random();
         for (int i = 1; i <= this.level*2 ; i++) {
-            this.suite = Integer.toString(r.nextInt(10));
+            this.suite.add(r.nextInt(10));
         }
     }
 
@@ -49,8 +55,8 @@ public class Game {
             this.level--;
     }
 
-    public void verif(String userEntry){
-        if(userEntry.compareTo(this.suite) == 0){
+    public void verif(int userEntry){
+        if(this.suite.contains(userEntry)){
             nextLevel();
         }
         else{
@@ -89,11 +95,15 @@ public class Game {
         this.life = life;
     }
 
-    public void setNumberOfButton(HashMap<Integer, Integer> numberOfButton) {
-        this.numberOfButton = numberOfButton;
-    }
     public int getNumButtons(){
         return this.numberOfButton.get(this.level);
     }
 
+    public int[] getSuite(){
+        int[] res= new int[this.suite.size()];
+        for(int i=0; i <this.suite.size(); i++){
+            res[i] = this.suite.get(i);
+        }
+        return res;
+    }
 }
