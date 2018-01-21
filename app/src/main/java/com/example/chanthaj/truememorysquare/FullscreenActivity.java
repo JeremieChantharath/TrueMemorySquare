@@ -2,11 +2,14 @@ package com.example.chanthaj.truememorysquare;
 
 
 import android.annotation.SuppressLint;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +24,7 @@ import android.widget.Toast;
  */
 public class FullscreenActivity extends AppCompatActivity {
 
+    private static final String TAG = "MyActivity";
     private String userEntry;
 
     @Override
@@ -29,128 +33,85 @@ public class FullscreenActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_fullscreen);
 
-        generateButtons();
+        Game game = new Game();
 
-
+        int dp = 25;
+        int px = dpToPx(25);
+        System.out.println(px);
+        generateButtons(game.getNumButtons());
 
 
     }
 
-    public void generateButtons(){
-        for (int i = 1; i <= 5; i++) {
-            RelativeLayout ll = (RelativeLayout)findViewById(R.id.relativelayout);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.MATCH_PARENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT);
-            Button btn = new Button(this);
-            btn.setId(i);
-            final int id_ = btn.getId();
-            btn.setText("button " + id_);
-            btn.setBackgroundColor(Color.rgb(70, 80, 90));
-            ll.addView(btn, params);
-            btn = ((Button) findViewById(id_));
-            btn.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
+    public void generateButtons(int numButtons) {
 
-                }
-            });
-        }
-    }
+        //Ca c'est l'id du button
+        int buttonId = 1;
 
+        //Ca ça sert à placer les boutons sur une ligne
+        for (int i = 1; i <= numButtons; i++) {
+            //Ca ça sert à les placer sur une colonne
+            for (int j = 1; j <= numButtons; j++) {
 
-    /* ******************** OSEF ********************* */
+                //Ca créer un bouton
+                Button btn = new Button(this);
+                //Donne l'id au bouton, pour ensuite pouvoir le différencier des autres, chaque boutons aura un id différent
+                btn.setId(buttonId);
 
-    /**
-     * Whether or not the system UI should be auto-hidden after
-     * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
-     */
-    private static final boolean AUTO_HIDE = true;
+                //Donne une couleur au bouton (osef)
+                btn.setBackgroundColor(Color.rgb(70, 80, 90));
 
-    /**
-     * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
-     * user interaction before hiding the system UI.
-     */
-    private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
+                //Créer les paramètres que l'on donnera au bouton
+                RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams( RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 
-    /**
-     * Some older devices needs a small delay between UI widget updates
-     * and a change of the status and navigation bar.
-     */
-    private static final int UI_ANIMATION_DELAY = 300;
-    private final Handler mHideHandler = new Handler();
-    private View mContentView;
-    private final Runnable mHidePart2Runnable = new Runnable() {
-        @SuppressLint("InlinedApi")
-        @Override
-        public void run() {
-            // Delayed removal of status and navigation bar
+                //Donne les dimensions au bouton (ils auront tous la même taille)
+                setButtonsParams(p, i, j);
+                //Verifie si le bouton est le premier de la colonne, s'il ne l'est pas on place ce bouton à DROITE du bouton précédent
+                if (!isInFirstColomn(buttonId, numButtons))
+                    p.addRule(RelativeLayout.RIGHT_OF, buttonId - 1);
+                //Vérifie si le bouton est sur la première ligne, s'il ne l'est pas, place le bouton en dessous du bouton censé être juste au dessus de lui
+                if(i>1)
+                    p.addRule(RelativeLayout.BELOW, buttonId - numButtons);
 
-            // Note that some of these constants are new as of API 16 (Jelly Bean)
-            // and API 19 (KitKat). It is safe to use them, as they are inlined
-            // at compile-time and do nothing on earlier devices.
-            mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-        }
-    };
-    private View mControlsView;
-    private final Runnable mShowPart2Runnable = new Runnable() {
-        @Override
-        public void run() {
-            // Delayed display of UI elements
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.show();
+                //Donne les paramètres au bouton
+                btn.setLayoutParams(p);
+
+                //OSEf on s'en sert pas
+                btn.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View view) {
+                        view.setBackgroundColor(Color.rgb(70, 0, 0));
+                        Log.v(TAG,Integer.toString(view.getId()));
+
+                    }
+                });
+                //Recupère la zone blanche du screen
+                RelativeLayout rl = (RelativeLayout) findViewById(R.id.relativelayout);
+                //Place le bouton dans la zone blanche là ou il devrait être
+                rl.addView(btn);
+                //Augmente la variable id de 1 (le premier bouton aura 0 pour id, le 2e aura 1, etc)
+                Log.v(TAG,Integer.toString(buttonId));
+                buttonId++;
             }
-            mControlsView.setVisibility(View.VISIBLE);
         }
-    };
-    private boolean mVisible;
-    private final Runnable mHideRunnable = new Runnable() {
-        @Override
-        public void run() {
-            hide();
-        }
-    };
-    /**
-     * Touch listener to use for in-layout UI controls to delay hiding the
-     * system UI. This is to prevent the jarring behavior of controls going away
-     * while interacting with activity UI.
-     */
-    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (AUTO_HIDE) {
-                delayedHide(AUTO_HIDE_DELAY_MILLIS);
-            }
-            return false;
-        }
-    };
-
-    private void hide() {
-        // Hide UI first
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.hide();
-        }
-        mControlsView.setVisibility(View.GONE);
-        mVisible = false;
-
-        // Schedule a runnable to remove the status and navigation bar after a delay
-        mHideHandler.removeCallbacks(mShowPart2Runnable);
-        mHideHandler.postDelayed(mHidePart2Runnable, UI_ANIMATION_DELAY);
     }
 
-
-    /**
-     * Schedules a call to hide() in [delay] milliseconds, canceling any
-     * previously scheduled calls.
-     */
-    private void delayedHide(int delayMillis) {
-        mHideHandler.removeCallbacks(mHideRunnable);
-        mHideHandler.postDelayed(mHideRunnable, delayMillis);
+    public void setButtonsParams(RelativeLayout.LayoutParams p, int i, int j) {
+        p.leftMargin = 50;
+        p.topMargin = 50 ;
+        p.width = 150;
+        p.height = 150;
     }
+
+    public boolean isInFirstColomn(int buttonId, int numberOfButtons) {
+        return buttonId == 1 || buttonId % numberOfButtons == 1;
+    }
+
+    public int dpToPx(int dp){
+        Resources r = getResources();
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
+        return Float.floatToIntBits(px);
+    }
+
 }
+
+

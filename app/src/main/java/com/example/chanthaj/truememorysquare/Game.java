@@ -1,6 +1,5 @@
 package com.example.chanthaj.truememorysquare;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -10,6 +9,7 @@ public class Game {
     private int score;
     private int level;
     private int life;
+    //key = level, value = number of columns/lines (it's a square)
     private HashMap<Integer,Integer> numberOfButton;
 
     public Game(){
@@ -18,10 +18,10 @@ public class Game {
         this.level=1;
         this.life=3;
         this.numberOfButton= new HashMap<>();
-        this.numberOfButton.put(1,9);
-        this.numberOfButton.put(2,9);
-        this.numberOfButton.put(3,16);
-        this.numberOfButton.put(4,16);
+        this.numberOfButton.put(1,3);
+        this.numberOfButton.put(2,3);
+        this.numberOfButton.put(3,4);
+        this.numberOfButton.put(4,4);
 
     }
 
@@ -58,4 +58,42 @@ public class Game {
             this.life--; //TODO: fonction à part
         }
     }
+
+    public void calculScore(){
+        //TODO
+    }
+
+
+    /******** GETTERS AND SETTERS  ***********/
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getLife() {
+        return life;
+    }
+
+    public void setLife(int life) {
+        this.life = life;
+    }
+
+    public void setNumberOfButton(HashMap<Integer, Integer> numberOfButton) {
+        this.numberOfButton = numberOfButton;
+    }
+    public int getNumButtons(){
+        return this.numberOfButton.get(this.level);
+    }
+
 }
