@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 /**
@@ -37,10 +38,10 @@ public class FullscreenActivity extends AppCompatActivity {
 
     public void generateButtons(){
         for (int i = 1; i <= 5; i++) {
-            LinearLayout ll = (LinearLayout)findViewById(R.id.linearlayout);
+            RelativeLayout ll = (RelativeLayout)findViewById(R.id.relativelayout);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
+                    RelativeLayout.LayoutParams.MATCH_PARENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT);
             Button btn = new Button(this);
             btn.setId(i);
             final int id_ = btn.getId();
