@@ -69,7 +69,7 @@ public class FullscreenActivity extends AppCompatActivity {
 
     }
 
-    public void generateButtons(int numButtons) {
+    public void generateButtons(final int numButtons) {
 
         int buttonId = 1;
         RelativeLayout rl = (RelativeLayout) findViewById(R.id.relativelayout);
@@ -132,6 +132,7 @@ public class FullscreenActivity extends AppCompatActivity {
 
                             if(game.nextLevel(userEntries))
                             {
+                                allButtonsDisable(numButtons*numButtons);
                                 userEntries.clear();
                                 game.newLevel(true);
                                 final Handler handler = new Handler();
@@ -148,6 +149,7 @@ public class FullscreenActivity extends AppCompatActivity {
                             game.calculScore();
                             //En cas de mauvaise
                         }else{
+                            allButtonsDisable(numButtons*numButtons);
                             view.setBackgroundColor(Color.rgb(200, 0, 0));
                             userEntries.clear();
                             game.newLevel(false);
@@ -218,6 +220,12 @@ public class FullscreenActivity extends AppCompatActivity {
         }
     }
 
+    public void allButtonsDisable(int max){
+        for (int i = 1; i < max; i++) {
+            Button btn = (Button)findViewById(i);
+            btn.setClickable(false);
+        }
+    }
 
     public void setButtonsParams(RelativeLayout.LayoutParams p) {
         p.topMargin = 50;
@@ -229,11 +237,6 @@ public class FullscreenActivity extends AppCompatActivity {
         return buttonId == 1 || buttonId % numberOfButtons == 1;
     }
 
-    public int dpToPx(int dp){
-        Resources r = getResources();
-        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
-        return Float.floatToIntBits(px);
-    }
 
 }
 

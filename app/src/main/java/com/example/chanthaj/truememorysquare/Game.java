@@ -38,7 +38,6 @@ public class Game {
 
     public void newLevel(boolean nextLevel){
         this.levelLife=3;
-        createSuite();
         if(nextLevel){
             this.level++;
             if(this.level > this.maxLevelYet)
@@ -49,6 +48,7 @@ public class Game {
                 this.level--;
             this.life--;
         }
+        createSuite();
     }
 
     public boolean gameOver(){
@@ -94,10 +94,6 @@ public class Game {
         return score;
     }
 
-    public void setScore(int score) {
-        this.score = score;
-    }
-
     public int getLevel() {
         return level;
     }
@@ -121,10 +117,6 @@ public class Game {
 
     public int getLife() {
         return life;
-    }
-
-    public void setLife(int life) {
-        this.life = life;
     }
 
 
