@@ -66,7 +66,10 @@ public class Game {
     public void createSuite(){
         this.suite.clear();
         Random r = new Random();
-        for (int i = 1; i <= this.level*2 ; i++) {
+        int suiteSize=this.level*2;
+        if(suiteSize>10)
+            suiteSize=10;
+        for (int i = 1; i <=suiteSize ; i++) {
             //-1)+1 ----> +1 en dehors du random car doit pas etre 0, -1 car doit etre en 1 et le nombre de carrés qu'il y aura et non le nb de carré+1
             int newEntry = r.nextInt(getNumButtons()*getNumButtons()-1)+1;
             while(this.suite.contains(newEntry))

@@ -51,9 +51,6 @@ public class FullscreenActivity extends AppCompatActivity {
         TextView level = (TextView)findViewById(R.id.level);
         level.setText("Level :" + this.game.getLevel());
 
-        TextView levelLife = (TextView)findViewById(R.id.levelLife);
-        levelLife.setText("LevelLife :" + this.game.getLevelLife());
-
         TextView life = (TextView)findViewById(R.id.life);
         life.setText("Life :" + this.game.getLife());
     }
@@ -97,7 +94,11 @@ public class FullscreenActivity extends AppCompatActivity {
 
                 //Verifie si le bouton est le premier de la colonne, s'il ne l'est pas on place ce bouton à DROITE du bouton précédent
                 if (!isInFirstColomn(buttonId, numButtons))
+                {
+                    p.leftMargin = 50;
                     p.addRule(RelativeLayout.RIGHT_OF, buttonId - 1);
+                }
+
                 //Vérifie si le bouton est sur la première ligne, s'il ne l'est pas, place le bouton en dessous du bouton censé être juste au dessus de lui
                 if(i>1)
                     p.addRule(RelativeLayout.BELOW, buttonId - numButtons);
@@ -148,29 +149,24 @@ public class FullscreenActivity extends AppCompatActivity {
                             //En cas de mauvaise
                         }else{
                             view.setBackgroundColor(Color.rgb(200, 0, 0));
-                            game.setLevelLife(game.getLevelLife()-1);
-                            if(game.levelLost())
+                            userEntries.clear();
+                            game.newLevel(false);
+                            if(game.gameOver())
                             {
-                                userEntries.clear();
-                                game.newLevel(false);
-                                if(game.gameOver())
-                                {
-                                    Intent intent = new Intent(getApplicationContext(), GameOver.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                                final Handler handler = new Handler();
-                                handler.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        if(game.getLevel()>=7)
-                                            generateWithDelay(1000);
-                                        generateWithDelay(1500);
-                                    }
-                                }, 1000);
-                                Toast.makeText(getApplicationContext(),"Dommage..",Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), GameOver.class);
+                                startActivity(intent);
+                                finish();
                             }
-
+                            final Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if(game.getLevel()>=7)
+                                        generateWithDelay(1000);
+                                    generateWithDelay(1500);
+                                }
+                            }, 1000);
+                            Toast.makeText(getApplicationContext(),"Dommage..",Toast.LENGTH_SHORT).show();
                         }
                         printInfos();
                     }
@@ -208,7 +204,11 @@ public class FullscreenActivity extends AppCompatActivity {
                 btn.setClickable(false);
                 setButtonsParams(p);
                 if (!isInFirstColomn(buttonId, numButtons))
+                {
+                    p.leftMargin = 50;
                     p.addRule(RelativeLayout.RIGHT_OF, buttonId - 1);
+                }
+
                 if(i>1)
                     p.addRule(RelativeLayout.BELOW, buttonId - numButtons);
                 btn.setLayoutParams(p);
@@ -220,7 +220,6 @@ public class FullscreenActivity extends AppCompatActivity {
 
 
     public void setButtonsParams(RelativeLayout.LayoutParams p) {
-        p.leftMargin = 50;
         p.topMargin = 50;
         p.width = 150;
         p.height = 150;
