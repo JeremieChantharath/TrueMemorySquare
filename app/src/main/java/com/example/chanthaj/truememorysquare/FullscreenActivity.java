@@ -16,6 +16,13 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+//TODO:
+/*
+-mode de jeu : séquence à mémoriser
+-menu avec séléction mode
+-highscore avec une bdd !!!!
+ */
+
 public class FullscreenActivity extends AppCompatActivity {
 
     private static final String TAG = "MyActivity";
@@ -32,9 +39,10 @@ public class FullscreenActivity extends AppCompatActivity {
         this.userEntries = new ArrayList<>();
 
 
-        generateWithDelay();
+        generateWithDelay(2000);
     }
 
+    //TODO faire des @string
     public void printInfos(){
 
         TextView score = (TextView)findViewById(R.id.score);
@@ -50,7 +58,7 @@ public class FullscreenActivity extends AppCompatActivity {
         life.setText("Life :" + this.game.getLife());
     }
 
-    public void generateWithDelay(){
+    public void generateWithDelay(int delay){
 
         generateButtonsToMemorize(this.game.getNumButtons());
 
@@ -60,7 +68,8 @@ public class FullscreenActivity extends AppCompatActivity {
             public void run() {
                 generateButtons(game.getNumButtons());
             }
-        }, 3000);
+        }, delay);
+
     }
 
     public void generateButtons(int numButtons) {
@@ -122,37 +131,41 @@ public class FullscreenActivity extends AppCompatActivity {
 
                             if(game.nextLevel(userEntries))
                             {
-                                game.setLevel(game.getLevel()+1);
                                 userEntries.clear();
-                                game.createSuite();
+                                game.newLevel(true);
                                 final Handler handler = new Handler();
                                 handler.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        generateWithDelay();
+                                        if(game.getLevel()>=7)
+                                            generateWithDelay(1000);
+                                        generateWithDelay(1500);
                                     }
                                 }, 1000);
                             Toast.makeText(getApplicationContext(),"Bien joué !",Toast.LENGTH_SHORT).show();
                             }
-
-                         //En cas de mauvaise
+                            game.calculScore();
+                            //En cas de mauvaise
                         }else{
                             view.setBackgroundColor(Color.rgb(200, 0, 0));
                             game.setLevelLife(game.getLevelLife()-1);
                             if(game.levelLost())
                             {
-                                game.setLevel(game.getLevel()-1);
-                                game.setLife(game.getLife()-1);
+                                userEntries.clear();
+                                game.newLevel(false);
                                 if(game.gameOver())
                                 {
                                     Intent intent = new Intent(getApplicationContext(), GameOver.class);
                                     startActivity(intent);
+                                    finish();
                                 }
                                 final Handler handler = new Handler();
                                 handler.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        generateWithDelay();
+                                        if(game.getLevel()>=7)
+                                            generateWithDelay(1000);
+                                        generateWithDelay(1500);
                                     }
                                 }, 1000);
                                 Toast.makeText(getApplicationContext(),"Dommage..",Toast.LENGTH_SHORT).show();
@@ -185,7 +198,7 @@ public class FullscreenActivity extends AppCompatActivity {
                 btn.setId(buttonId);
                 //Si fait partit de la suite rouge, sinon comme les autres
                 if(this.game.getSuite().contains(buttonId))
-                    btn.setBackgroundColor(Color.rgb(70, 0, 0));
+                    btn.setBackgroundColor(Color.rgb(60, 180, 250));
                 else
                     btn.setBackgroundColor(Color.rgb(70, 80, 90));
 

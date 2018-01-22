@@ -3,11 +3,11 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              tools:context="com.example.chanthaj.truememorysquare.FullscreenActivity"
-             android:background="#5e5e5e">
+             android:background="#ffffff">
 
     <RelativeLayout
         android:layout_width="350dp"
-        android:layout_height="88dp"
+        android:layout_height="match_parent"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp">
 
@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:text="Score:" />
+            android:text="Score: 0" />
 
         <TextView
             android:id="@+id/level"
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/score"
             android:layout_centerHorizontal="true"
-            android:text="Level:" />
+            android:text="Level: 1" />
 
         <TextView
             android:id="@+id/levelLife"
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/level"
             android:layout_centerHorizontal="true"
-            android:text="LevelLife:" />
+            android:text="LevelLife: 3" />
 
         <TextView
             android:id="@+id/life"
@@ -41,17 +41,32 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/levelLife"
             android:layout_centerHorizontal="true"
-            android:text="Life:" />
+            android:text="Life: 3" />
+
+        <TextView
+            android:id="@+id/countDown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="17dp"
+            android:gravity="center"
+            android:textColor="@color/colorAccent"
+            android:textSize="36sp" />
+
+        <RelativeLayout
+            android:id="@+id/relativelayout"
+            android:layout_width="350dp"
+            android:layout_height="380dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:background="#FFF"
+            android:orientation="horizontal">
+
+        </RelativeLayout>
+
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/relativelayout"
-        android:layout_width="350dp"
-        android:layout_height="481dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="50dp"
-        android:background="#FFF"
-        android:orientation="horizontal">
-
-    </RelativeLayout>
 </FrameLayout>

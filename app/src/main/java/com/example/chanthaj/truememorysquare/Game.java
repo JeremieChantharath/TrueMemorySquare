@@ -11,6 +11,7 @@ public class Game {
     private int level;
     private int levelLife;
     private int life;
+    private int maxLevelYet;
     //key = level, value = number of columns/lines (it's a square)
     private HashMap<Integer,Integer> numberOfButton;
 
@@ -19,22 +20,35 @@ public class Game {
         this.level=1;
         this.levelLife = 3;
         this.life = 3;
+        this.maxLevelYet=0;
 
         this.numberOfButton= new HashMap<>();
-        this.numberOfButton.put(1,3);
-        this.numberOfButton.put(2,3);
-        this.numberOfButton.put(3,4);
-        this.numberOfButton.put(4,4);
-        this.numberOfButton.put(5,5);
-        this.numberOfButton.put(6,5);
-        this.numberOfButton.put(7,6);
-        this.numberOfButton.put(8,6);
-        this.numberOfButton.put(9,7);
-        this.numberOfButton.put(10,7);
+
+        int numberOfSquares = 3;
+        for (int levelNumber = 1; levelNumber < 30 ; levelNumber++) {
+            if(levelNumber%2 ==1 && levelNumber!=1 && numberOfSquares<5)
+                numberOfSquares++;
+            this.numberOfButton.put(levelNumber,numberOfSquares);
+        }
 
         this.suite= new ArrayList<>();
         createSuite();
 
+    }
+
+    public void newLevel(boolean nextLevel){
+        this.levelLife=3;
+        createSuite();
+        if(nextLevel){
+            this.level++;
+            if(this.level > this.maxLevelYet)
+                this.maxLevelYet=this.level;
+        }
+        else{
+            if (this.level >1)
+                this.level--;
+            this.life--;
+        }
     }
 
     public boolean gameOver(){
@@ -67,7 +81,8 @@ public class Game {
     }
 
     public void calculScore(){
-        this.score = this.score + this.level;
+        if(this.level >= this.maxLevelYet)
+            this.score = this.score + this.level;
     }
 
 
@@ -85,7 +100,8 @@ public class Game {
     }
 
     public void setLevel(int level) {
-        this.level = level;
+        if(this.level >1)
+            this.level = level;
     }
 
     public int getLevelLife() {
