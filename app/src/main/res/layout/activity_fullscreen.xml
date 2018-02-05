@@ -16,24 +16,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:text="Score: 0" />
+            android:layout_centerHorizontal="true" />
 
         <TextView
             android:id="@+id/level"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/score"
-            android:layout_centerHorizontal="true"
-            android:text="Level: 1" />
+            android:layout_centerHorizontal="true" />
 
         <TextView
             android:id="@+id/life"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/level"
-            android:layout_centerHorizontal="true"
-            android:text="Life: 3" />
+            android:layout_centerHorizontal="true" />
 
         <RelativeLayout
             android:id="@+id/relativelayout"
